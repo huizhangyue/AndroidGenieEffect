@@ -47,12 +47,5 @@ public class MainActivity extends AppCompatActivity {
 
     public void minimize(View view) {
         genieEffectLayout.start();
-//        Bitmap bm = genieEffectLayout.createBitmap(layout);
-//        if (bm == null) {
-//            Toast.makeText(this, "bm为空", Toast.LENGTH_SHORT).show();
-//        }
-//        Log.i("main", "bm:" + bm.getAllocationByteCount() / 1024);
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_bg);
-//        Log.i("main", "bitmap:" + bitmap.getAllocationByteCount() / 1024);
     }
 }

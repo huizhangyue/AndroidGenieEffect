@@ -3,6 +3,8 @@ package com.jyn.genieeffec;
 import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import androidx.annotation.Nullable;
+
 /**
  * Created by linzx on 17-7-27.
  * 供给CaptureAnimView的支持类,核心数据计算均在此处
@@ -10,46 +12,58 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 public class MeshHelper {
     /**
-     * 缩放视图的宽度
+     * 容器的宽高值
      */
-    float width;
-    /**
-     * 缩放视图的高度
-     */
+//    float width;
     float height;
 
 
+    /**
+     * 宽高值
+     */
     float mapWidth;
-
-
     float mapHeight;
+
+    /**
+     * 最小化位置 设置两个锚点
+     */
+    int anchorLeft;
+    int anchorRight;
 
     /**
      * 横向分格数
      */
-    private final int WIDTH_DET = 10;
+    private final int WIDTH_DET = 20;
 
     /**
      * 纵向分格数
      */
-    private final int HEIGHT_DET = 10;
+    private final int HEIGHT_DET = 20;
 
     /**
      * 插值器
      */
     private AccelerateDecelerateInterpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
-    public void init(int width, int height) {
-        Log.i("main", "mapWidth:" + mapWidth);
-        Log.i("main", "mapHeight:" + mapHeight);
-
-        this.width = width;
+    public void init(@Nullable int width, @Nullable int height) {
+//        this.width = width;
         this.height = height;
     }
 
+    /**
+     * 设置bitmap宽高值
+     *
+     * @param mapWidth  bitmap 宽
+     * @param mapHeight bitmap 高
+     */
     public void setBitmapDet(int mapWidth, int mapHeight) {
-        this.mapWidth = width;
-        this.mapHeight = width / mapWidth * mapHeight;
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+    }
+
+    public void setAnchorDet(int anchorLeft, int anchorRight) {
+        this.anchorLeft = anchorLeft;
+        this.anchorRight = anchorRight;
     }
 
     /**
@@ -82,13 +96,16 @@ public class MeshHelper {
 
         //在0~0.3f的部分,左右轨迹要逐渐向中心靠拢
         if (posi <= 0.3f) {
-            leftLine = new LinePosi(0, width * 0.1f * (posi / 0.3f), 0, height);
-            rightLine = new LinePosi(width, width * 0.3f + width * 0.8f * (0.3f - posi) / 0.3f, 0, height);
+//            leftLine = new LinePosi(0, mapWidth * 0.1f * (posi / 0.3f), 0, height);
+//            rightLine = new LinePosi(mapWidth, mapWidth * 0.3f + mapWidth * 0.8f * (0.3f - posi) / 0.3f, 0, height);
+            leftLine = new LinePosi(0, anchorLeft * (posi / 0.3f), 0, height);
+            rightLine = new LinePosi(mapWidth, anchorRight + (mapWidth - anchorRight) * (0.3f - posi) / 0.3f, 0, height);
         } else {
             //在0.3f~1f,左右轨迹保持不变,图像按照此轨迹作为边界进行运动
-            leftLine = new LinePosi(0, width * 0.1f, 0, height);
-            rightLine = new LinePosi(width, width * 0.3f, 0, height);
+            leftLine = new LinePosi(0, anchorLeft, 0, height);
+            rightLine = new LinePosi(mapWidth, anchorRight, 0, height);
         }
+
         float destY = height * posi;
 
 

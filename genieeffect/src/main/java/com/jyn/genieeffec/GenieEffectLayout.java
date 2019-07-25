@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -47,16 +48,26 @@ public class GenieEffectLayout extends RelativeLayout {
     /**
      * 最大化View的位置坐标
      */
-    int maximizeLeft;
-    int maximizeTop;
-    int maximizeRight;
-    int maximizeBottom;
+//    int maximizeLeft;
+//    int maximizeTop;
 
     /**
      * 最大化view的宽高值
      */
     int maximizeWidth;
     int maximizeHeight;
+
+    /**
+     * 最小化坐标位置
+     */
+    int anchorLeft;
+    int anchorRight;
+
+    /**
+     * 横纵方向网格数
+     */
+//    int meshWidth = 20;
+//    int meshHeight = 20;
 
     boolean isStart;
 
@@ -87,10 +98,10 @@ public class GenieEffectLayout extends RelativeLayout {
 
     public GenieEffectLayout setMaximizeView(final View view) {
         maximizeView = view;
-        view.post(() -> {
-            maximizeLeft = view.getLeft();
-            maximizeTop = view.getTop();
-        });
+//        view.post(() -> {
+//            maximizeLeft = view.getLeft();
+//            maximizeTop = view.getTop();
+//        });
         return this;
     }
 
@@ -102,19 +113,26 @@ public class GenieEffectLayout extends RelativeLayout {
     public void init() {
         this.post(() -> {
             bitmap = loadBitmapFromView(maximizeView);
+
+            //获取bitmap的宽高
             maximizeWidth = bitmap.getWidth();
             maximizeHeight = bitmap.getHeight();
+
+            //获取锚点位置
+            anchorLeft = minimizeView.getLeft();
+            anchorRight = minimizeView.getRight();
 
             mMeshHelper = new MeshHelper();
             mMeshHelper.init(getWidth(), getHeight());
             mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
+            mMeshHelper.setAnchorDet(anchorLeft, anchorRight);
         });
 
         paint = new Paint();
         paint.setAntiAlias(true);
         valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-        valueAnimator.setDuration(800);
-        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        valueAnimator.setDuration(8000);
+        valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.addUpdateListener(animation ->
                 setPosi(animation.getAnimatedFraction()));
     }
@@ -128,7 +146,6 @@ public class GenieEffectLayout extends RelativeLayout {
         }
     }
 
-
     public void setPosi(float posi) {
         this.posi = posi;
         invalidate();
@@ -140,8 +157,9 @@ public class GenieEffectLayout extends RelativeLayout {
         if (bitmap == null || mMeshHelper == null || !isStart) return;
         float[] mesh = mMeshHelper.setPosiToFloats(posi);
 //        canvas.drawBitmap(mBitmap, maximizeLeft, maximizeTop, mPaint);
-
-        canvas.drawBitmapMesh(bitmap, mMeshHelper.getVetWidth(), mMeshHelper.getVetHeight()
+        canvas.drawBitmapMesh(bitmap,
+                mMeshHelper.getVetWidth(),
+                mMeshHelper.getVetHeight()
                 , mesh, 0, null, 0, paint);
     }
 
