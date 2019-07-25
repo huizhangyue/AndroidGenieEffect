@@ -2,6 +2,7 @@ package com.jyn.genieeffec;
 
 import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 
 import androidx.annotation.Nullable;
 
@@ -43,7 +44,7 @@ public class MeshHelper {
     /**
      * 插值器
      */
-    private AccelerateDecelerateInterpolator mInterpolator = new AccelerateDecelerateInterpolator();
+    private AccelerateInterpolator mInterpolator = new AccelerateInterpolator();
 
     public void init(@Nullable int width, @Nullable int height) {
 //        this.width = width;
@@ -95,12 +96,13 @@ public class MeshHelper {
         LinePosi rightLine;
 
         //靠拢阙值
-        float threshold = 0.3f;
+        float threshold = 0.2f;
 
         //在0~0.3f的部分,左右轨迹要逐渐向中心靠拢
         if (posi <= threshold) {
             //轨迹差值
-            float diff = posi / threshold * posi / threshold;
+//            float diff = posi / threshold * posi / threshold;
+            float diff = Math.abs(posi / threshold);
             leftLine = new LinePosi(0, anchorLeft * diff, 0, height);
             rightLine = new LinePosi(mapWidth, anchorRight + (mapWidth - anchorRight) * (1 - diff), 0, height);
         } else {
@@ -168,6 +170,7 @@ public class MeshHelper {
             float disLength = toY - fromY;
             float disXLength = toX - fromX;
             float disFloat = yP / disLength;
+
             float disXFloat = mInterpolator.getInterpolation(disFloat);
             float merage = disXLength * disXFloat;
             return fromX + merage;

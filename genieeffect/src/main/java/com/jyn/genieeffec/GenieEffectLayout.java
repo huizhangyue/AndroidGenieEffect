@@ -5,17 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
@@ -93,10 +89,6 @@ public class GenieEffectLayout extends RelativeLayout {
                 setPosi(animation.getAnimatedFraction()));
         valueAnimator.addListener(new AnimEndListener());
         mMeshHelper = new MeshHelper();
-
-        this.post(() -> {
-            mMeshHelper.init(getWidth(), getHeight());
-        });
     }
 
     public GenieEffectLayout setMaximizeView(final View view) {
