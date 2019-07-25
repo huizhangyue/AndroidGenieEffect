@@ -1,5 +1,7 @@
 package com.jyn.genieeffec;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -46,12 +48,6 @@ public class GenieEffectLayout extends RelativeLayout {
     MeshHelper mMeshHelper;
 
     /**
-     * 最大化View的位置坐标
-     */
-//    int maximizeLeft;
-//    int maximizeTop;
-
-    /**
      * 最大化view的宽高值
      */
     int maximizeWidth;
@@ -62,12 +58,6 @@ public class GenieEffectLayout extends RelativeLayout {
      */
     int anchorLeft;
     int anchorRight;
-
-    /**
-     * 横纵方向网格数
-     */
-//    int meshWidth = 20;
-//    int meshHeight = 20;
 
     boolean isStart;
 
@@ -98,10 +88,14 @@ public class GenieEffectLayout extends RelativeLayout {
 
     public GenieEffectLayout setMaximizeView(final View view) {
         maximizeView = view;
-//        view.post(() -> {
-//            maximizeLeft = view.getLeft();
-//            maximizeTop = view.getTop();
-//        });
+        return this;
+    }
+
+    public GenieEffectLayout setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+        maximizeWidth = bitmap.getWidth();
+        maximizeHeight = bitmap.getHeight();
+        mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
         return this;
     }
 
@@ -131,7 +125,7 @@ public class GenieEffectLayout extends RelativeLayout {
         paint = new Paint();
         paint.setAntiAlias(true);
         valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-        valueAnimator.setDuration(8000);
+        valueAnimator.setDuration(5000);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.addUpdateListener(animation ->
                 setPosi(animation.getAnimatedFraction()));
@@ -161,6 +155,15 @@ public class GenieEffectLayout extends RelativeLayout {
                 mMeshHelper.getVetWidth(),
                 mMeshHelper.getVetHeight()
                 , mesh, 0, null, 0, paint);
+    }
+
+
+    private class AnimEndListener extends AnimatorListenerAdapter {
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+        }
     }
 
     /**

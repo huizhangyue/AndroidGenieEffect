@@ -94,12 +94,15 @@ public class MeshHelper {
         LinePosi leftLine;
         LinePosi rightLine;
 
+        //靠拢阙值
+        float threshold = 0.3f;
+
         //在0~0.3f的部分,左右轨迹要逐渐向中心靠拢
-        if (posi <= 0.3f) {
-//            leftLine = new LinePosi(0, mapWidth * 0.1f * (posi / 0.3f), 0, height);
-//            rightLine = new LinePosi(mapWidth, mapWidth * 0.3f + mapWidth * 0.8f * (0.3f - posi) / 0.3f, 0, height);
-            leftLine = new LinePosi(0, anchorLeft * (posi / 0.3f), 0, height);
-            rightLine = new LinePosi(mapWidth, anchorRight + (mapWidth - anchorRight) * (0.3f - posi) / 0.3f, 0, height);
+        if (posi <= threshold) {
+            //轨迹差值
+            float diff = Math.abs(posi / threshold);
+            leftLine = new LinePosi(0, anchorLeft * diff, 0, height);
+            rightLine = new LinePosi(mapWidth, anchorRight + (mapWidth - anchorRight) * (1 - diff), 0, height);
         } else {
             //在0.3f~1f,左右轨迹保持不变,图像按照此轨迹作为边界进行运动
             leftLine = new LinePosi(0, anchorLeft, 0, height);
