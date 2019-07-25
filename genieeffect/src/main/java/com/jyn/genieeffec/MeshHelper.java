@@ -34,12 +34,12 @@ public class MeshHelper {
     /**
      * 横向分格数
      */
-    private final int WIDTH_DET = 20;
+    private final int WIDTH_DET = 30;
 
     /**
      * 纵向分格数
      */
-    private final int HEIGHT_DET = 20;
+    private final int HEIGHT_DET = 30;
 
     /**
      * 插值器
@@ -131,12 +131,21 @@ public class MeshHelper {
                 //X点位根据两个line在Y值时的差值进行平均分布
                 float posiX = disPosiX * j / WIDTH_DET + leftPosiX;
 
+
+                if (posiY > height) {
+                    posiY = height;
+
+                    if (posiX < anchorLeft) {
+                        posiX = anchorLeft;
+                    }
+                    if (posiX > anchorRight) {
+                        posiX = anchorRight;
+                    }
+                }
+
                 //先X后Y输出
                 newFloat[num] = posiX;
                 num++;
-                if (posiY > height) {
-                    posiY = height;
-                }
                 newFloat[num] = posiY;
                 num++;
             }
