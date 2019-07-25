@@ -84,6 +84,18 @@ public class GenieEffectLayout extends RelativeLayout {
         this.context = context;
         setBackground(null);
         setWillNotDraw(false);
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        valueAnimator = ValueAnimator.ofFloat(0f, 1f);
+        valueAnimator.setDuration(500);
+        valueAnimator.setInterpolator(new AccelerateInterpolator());
+        valueAnimator.addUpdateListener(animation ->
+                setPosi(animation.getAnimatedFraction()));
+
+        this.post(() -> {
+            mMeshHelper = new MeshHelper();
+            mMeshHelper.init(getWidth(), getHeight());
+        });
     }
 
     public GenieEffectLayout setMaximizeView(final View view) {
@@ -96,34 +108,16 @@ public class GenieEffectLayout extends RelativeLayout {
         return this;
     }
 
-    public void init() {
-        this.post(() -> {
-            bitmap = loadBitmapFromView(maximizeView);
-            //获取bitmap的宽高
-            maximizeWidth = bitmap.getWidth();
-            maximizeHeight = bitmap.getHeight();
-
-            //获取锚点位置
-            anchorLeft = minimizeView.getLeft();
-            anchorRight = minimizeView.getRight();
-
-            mMeshHelper = new MeshHelper();
-            mMeshHelper.init(getWidth(), getHeight());
-            mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
-            mMeshHelper.setAnchorDet(anchorLeft, anchorRight);
-        });
-
-        paint = new Paint();
-        paint.setAntiAlias(true);
-        valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-        valueAnimator.setDuration(500);
-        valueAnimator.setInterpolator(new AccelerateInterpolator());
-        valueAnimator.addUpdateListener(animation ->
-                setPosi(animation.getAnimatedFraction()));
-    }
-
     public void start() {
         isStart = true;
+        bitmap = loadBitmapFromView(maximizeView);
+        maximizeWidth = bitmap.getWidth();
+        maximizeHeight = bitmap.getHeight();
+        anchorLeft = minimizeView.getLeft();
+        anchorRight = minimizeView.getRight();
+        mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
+        mMeshHelper.setAnchorDet(anchorLeft, anchorRight);
+
         invalidate();
         maximizeView.setVisibility(GONE);
         if (valueAnimator != null) {
@@ -171,7 +165,7 @@ public class GenieEffectLayout extends RelativeLayout {
 
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
-        c.drawColor(Color.WHITE);
+//        c.drawColor(Color.WHITE);
         // 如果不设置canvas画布为白色，则生成透明
         v.layout(v.getLeft(), v.getTop(), width, height);
         v.draw(c);
