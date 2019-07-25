@@ -107,7 +107,6 @@ public class GenieEffectLayout extends RelativeLayout {
     public void init() {
         this.post(() -> {
             bitmap = loadBitmapFromView(maximizeView);
-
             //获取bitmap的宽高
             maximizeWidth = bitmap.getWidth();
             maximizeHeight = bitmap.getHeight();
@@ -134,6 +133,21 @@ public class GenieEffectLayout extends RelativeLayout {
     public void start() {
         isStart = true;
         invalidate();
+//
+//        bitmap = loadBitmapFromView(maximizeView);
+//        //获取bitmap的宽高
+//        maximizeWidth = bitmap.getWidth();
+//        maximizeHeight = bitmap.getHeight();
+//
+//        //获取锚点位置
+//        anchorLeft = minimizeView.getLeft();
+//        anchorRight = minimizeView.getRight();
+//
+//        mMeshHelper = new MeshHelper();
+//        mMeshHelper.init(getWidth(), getHeight());
+//        mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
+//        mMeshHelper.setAnchorDet(anchorLeft, anchorRight);
+
         maximizeView.setVisibility(GONE);
         if (valueAnimator != null) {
             valueAnimator.start();
@@ -182,7 +196,7 @@ public class GenieEffectLayout extends RelativeLayout {
         Canvas c = new Canvas(bmp);
         c.drawColor(Color.WHITE);
         // 如果不设置canvas画布为白色，则生成透明
-        v.layout(v.getLeft(), v.getTop(), height, width);
+        v.layout(v.getLeft(), v.getTop(), width, height);
         v.draw(c);
         return bmp;
     }
