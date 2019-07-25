@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="30dp"
+            android:layout_centerHorizontal="true"
             android:onClick="minimize"
             android:text="最小化" />
 
@@ -52,10 +52,8 @@
     <ImageView
         android:id="@+id/image2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_marginBottom="200dp"
         android:scaleType="center" />
 </RelativeLayout>

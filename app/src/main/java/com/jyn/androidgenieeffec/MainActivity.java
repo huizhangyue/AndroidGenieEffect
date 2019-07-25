@@ -54,6 +54,5 @@ public class MainActivity extends AppCompatActivity {
 //        Log.i("main", "bm:" + bm.getAllocationByteCount() / 1024);
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_bg);
 //        Log.i("main", "bitmap:" + bitmap.getAllocationByteCount() / 1024);
-//        imageView2.setImageBitmap(bm);
     }
 }

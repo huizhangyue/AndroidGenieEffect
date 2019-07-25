@@ -1,5 +1,6 @@
 package com.jyn.genieeffec;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -36,9 +38,9 @@ public class GenieEffectLayout extends RelativeLayout {
     /**
      * 把目标view转后后得到的bitmap
      */
-    Bitmap mBitmap;
+    Bitmap bitmap;
 
-    Paint mPaint;
+    Paint paint;
 
     MeshHelper mMeshHelper;
 
@@ -57,6 +59,10 @@ public class GenieEffectLayout extends RelativeLayout {
     int maximizeHeight;
 
     boolean isStart;
+
+    ValueAnimator valueAnimator;
+
+    float posi;
 
     public GenieEffectLayout(Context context) {
         super(context);
@@ -95,30 +101,48 @@ public class GenieEffectLayout extends RelativeLayout {
 
     public void init() {
         this.post(() -> {
-            mBitmap = loadBitmapFromView(maximizeView);
-            maximizeWidth = mBitmap.getWidth();
-            maximizeHeight = mBitmap.getHeight();
-            Log.i("main", "maximizeWidth:" + maximizeWidth);
-            Log.i("main", "maximizeHeight:" + maximizeHeight);
-            mPaint = new Paint();
-            mPaint.setAntiAlias(true);
+            bitmap = loadBitmapFromView(maximizeView);
+            maximizeWidth = bitmap.getWidth();
+            maximizeHeight = bitmap.getHeight();
+
             mMeshHelper = new MeshHelper();
+            mMeshHelper.init(getWidth(), getHeight());
+            mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
         });
+
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        valueAnimator = ValueAnimator.ofFloat(0f, 1f);
+        valueAnimator.setDuration(800);
+        valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        valueAnimator.addUpdateListener(animation ->
+                setPosi(animation.getAnimatedFraction()));
     }
 
     public void start() {
         isStart = true;
         invalidate();
         maximizeView.setVisibility(GONE);
+        if (valueAnimator != null) {
+            valueAnimator.start();
+        }
     }
 
+
+    public void setPosi(float posi) {
+        this.posi = posi;
+        invalidate();
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (isStart) {
-            canvas.drawBitmap(mBitmap, maximizeLeft, maximizeTop, mPaint);
-        }
+        if (bitmap == null || mMeshHelper == null || !isStart) return;
+        float[] mesh = mMeshHelper.setPosiToFloats(posi);
+//        canvas.drawBitmap(mBitmap, maximizeLeft, maximizeTop, mPaint);
+
+        canvas.drawBitmapMesh(bitmap, mMeshHelper.getVetWidth(), mMeshHelper.getVetHeight()
+                , mesh, 0, null, 0, paint);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.jyn.genieeffec;
 
+import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 /**
@@ -39,6 +40,9 @@ public class MeshHelper {
     private AccelerateDecelerateInterpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public void init(int width, int height) {
+        Log.i("main", "mapWidth:" + mapWidth);
+        Log.i("main", "mapHeight:" + mapHeight);
+
         this.width = width;
         this.height = height;
     }
