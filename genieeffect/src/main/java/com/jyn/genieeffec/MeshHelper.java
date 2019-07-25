@@ -100,7 +100,7 @@ public class MeshHelper {
         //在0~0.3f的部分,左右轨迹要逐渐向中心靠拢
         if (posi <= threshold) {
             //轨迹差值
-            float diff = Math.abs(posi / threshold);
+            float diff = posi / threshold * posi / threshold;
             leftLine = new LinePosi(0, anchorLeft * diff, 0, height);
             rightLine = new LinePosi(mapWidth, anchorRight + (mapWidth - anchorRight) * (1 - diff), 0, height);
         } else {
