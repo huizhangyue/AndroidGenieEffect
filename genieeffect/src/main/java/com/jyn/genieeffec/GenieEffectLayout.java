@@ -87,13 +87,14 @@ public class GenieEffectLayout extends RelativeLayout {
         paint = new Paint();
         paint.setAntiAlias(true);
         valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-        valueAnimator.setDuration(500);
+        valueAnimator.setDuration(5000);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.addUpdateListener(animation ->
                 setPosi(animation.getAnimatedFraction()));
+        valueAnimator.addListener(new AnimEndListener());
+        mMeshHelper = new MeshHelper();
 
         this.post(() -> {
-            mMeshHelper = new MeshHelper();
             mMeshHelper.init(getWidth(), getHeight());
         });
     }
@@ -115,6 +116,8 @@ public class GenieEffectLayout extends RelativeLayout {
         maximizeHeight = bitmap.getHeight();
         anchorLeft = minimizeView.getLeft();
         anchorRight = minimizeView.getRight();
+
+        mMeshHelper.init(getWidth(), getHeight());
         mMeshHelper.setBitmapDet(maximizeWidth, maximizeHeight);
         mMeshHelper.setAnchorDet(anchorLeft, anchorRight);
 
@@ -148,6 +151,10 @@ public class GenieEffectLayout extends RelativeLayout {
         @Override
         public void onAnimationEnd(Animator animation) {
             super.onAnimationEnd(animation);
+            if (bitmap != null) {
+                bitmap.recycle();
+                bitmap = null;
+            }
         }
     }
 

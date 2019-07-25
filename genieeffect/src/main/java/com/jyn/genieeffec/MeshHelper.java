@@ -132,6 +132,9 @@ public class MeshHelper {
                 //先X后Y输出
                 newFloat[num] = posiX;
                 num++;
+                if (posiY > height) {
+                    posiY = height;
+                }
                 newFloat[num] = posiY;
                 num++;
             }
