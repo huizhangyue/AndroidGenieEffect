@@ -34,12 +34,12 @@ public class MeshHelper {
     /**
      * 横向分格数
      */
-    private final int WIDTH_DET = 30;
+    private final int WIDTH_DET = 50;
 
     /**
      * 纵向分格数
      */
-    private final int HEIGHT_DET = 30;
+    private final int HEIGHT_DET = 50;
 
     /**
      * 插值器
@@ -66,6 +66,18 @@ public class MeshHelper {
         this.anchorLeft = anchorLeft;
         this.anchorRight = anchorRight;
     }
+
+    public int getVetWidth() {
+        return WIDTH_DET;
+    }
+
+    public int getVetHeight() {
+        return HEIGHT_DET;
+    }
+
+    /**
+     * 描述运动轨迹(起点XY和终点XY以及变函数Interpolator),根据输入量,可输出相对应的值
+     */
 
     /**
      * | ------------------------------
@@ -131,7 +143,6 @@ public class MeshHelper {
                 //X点位根据两个line在Y值时的差值进行平均分布
                 float posiX = disPosiX * j / WIDTH_DET + leftPosiX;
 
-
                 if (posiY > height) {
                     posiY = height;
 
@@ -142,7 +153,6 @@ public class MeshHelper {
                         posiX = anchorRight;
                     }
                 }
-
                 //先X后Y输出
                 newFloat[num] = posiX;
                 num++;
@@ -154,17 +164,6 @@ public class MeshHelper {
         return newFloat;
     }
 
-    public int getVetWidth() {
-        return WIDTH_DET;
-    }
-
-    public int getVetHeight() {
-        return HEIGHT_DET;
-    }
-
-    /**
-     * 描述运动轨迹(起点XY和终点XY以及变函数Interpolator),根据输入量,可输出相对应的值
-     */
     private class LinePosi {
         private float fromX, toX, fromY, toY;
 

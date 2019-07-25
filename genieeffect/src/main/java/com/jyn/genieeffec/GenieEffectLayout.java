@@ -114,7 +114,7 @@ public class GenieEffectLayout extends RelativeLayout {
         mMeshHelper.setAnchorDet(anchorLeft, anchorRight);
 
         invalidate();
-        maximizeView.setVisibility(GONE);
+        maximizeView.setVisibility(INVISIBLE);
         if (valueAnimator != null) {
             valueAnimator.start();
         }

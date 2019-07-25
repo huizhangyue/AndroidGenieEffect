@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     ImageView imageView;
     LinearLayout layout;
-
+    TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
         imageView = findViewById(R.id.image);
         layout = findViewById(R.id.layout);
+        text = findViewById(R.id.text);
 
         genieEffectLayout
                 .setMaximizeView(layout)
-                .setMinimizeView(button);
+                .setMinimizeView(text);
     }
 
     public void minimize(View view) {
