@@ -7,10 +7,10 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 
 /**
- * @description TODO
  * @author Taolin
- * @date Dec 30, 2013
  * @version v1.0
+ * @description TODO
+ * @date Dec 30, 2013
  */
 
 public class InhaleMesh extends Mesh {

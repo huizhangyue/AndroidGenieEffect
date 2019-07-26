@@ -83,7 +83,7 @@ public class GenieEffectLayout extends RelativeLayout {
         paint = new Paint();
         paint.setAntiAlias(true);
         valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-        valueAnimator.setDuration(5000);
+        valueAnimator.setDuration(500);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.addUpdateListener(animation ->
                 setPosi(animation.getAnimatedFraction()));

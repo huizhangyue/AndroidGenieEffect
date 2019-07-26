@@ -125,7 +125,6 @@ public class MeshHelper {
 
         float destY = height * posi;
 
-
         float[] newFloat = new float[(WIDTH_DET + 1) * (HEIGHT_DET + 1) * 2];
 
         int num = 0;
